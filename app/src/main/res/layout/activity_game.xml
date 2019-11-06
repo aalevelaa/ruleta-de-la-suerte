@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".GameActivity"
+    android:background="#222" >
+
 
     <ImageView
         android:id="@+id/imageView"
@@ -16,29 +18,18 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/background_intro" />
+        app:srcCompat="@drawable/background_ingame" />
 
     <ImageView
         android:id="@+id/ruletaIntro"
         android:layout_width="300dp"
         android:layout_height="300dp"
-        android:background="@drawable/ruleta_intro"
+        android:background="@drawable/ruleta_ingame"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/playButton"
-        android:layout_width="100dp"
-        android:layout_height="45dp"
-        app:layout_constraintBottom_toBottomOf="@+id/ruletaIntro"
-        app:layout_constraintEnd_toEndOf="@+id/ruletaIntro"
-        app:layout_constraintStart_toStartOf="@+id/ruletaIntro"
-        app:layout_constraintTop_toTopOf="@+id/ruletaIntro"
-        app:srcCompat="@drawable/play_button_dark"
-        android:cropToPadding="false"
-        android:scaleType="fitCenter"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
