@@ -26,6 +26,7 @@ public class PlayersMenuActivity extends AppCompatActivity {
                 public void onClick(View v)
                 {
                     Intent activityNamesIntent = new Intent(getApplicationContext(), NamesActivity.class);
+                    activityNamesIntent.putExtra("clicked_button", v.toString());
                     startActivity(activityNamesIntent);
                     }
             });

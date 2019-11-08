@@ -23,8 +23,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ruletaIntro = (ImageView) findViewById(R.id.ruletaIntro);
-        playButton = (ImageView) findViewById(R.id.playButton);
+        ruletaIntro = findViewById(R.id.ruletaIntro);
+        playButton = findViewById(R.id.playButton);
 
         loadAnimations();
 

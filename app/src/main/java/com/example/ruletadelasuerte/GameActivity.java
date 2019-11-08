@@ -16,7 +16,7 @@ public class GameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
-        ruleta = (ImageView) findViewById(R.id.ruletaIntro);
+        ruleta = findViewById(R.id.ruletaIntro);
 
         FlingAnimation fling = new FlingAnimation(ruleta, DynamicAnimation.SCROLL_Y);
 
