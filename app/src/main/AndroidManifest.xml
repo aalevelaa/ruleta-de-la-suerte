@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:screenOrientation="portrait"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen">
         <activity android:name=".GameActivity"></activity>
         <activity android:name=".NamesActivity" />
         <activity android:name=".PlayersMenuActivity" />

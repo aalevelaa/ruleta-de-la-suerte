@@ -5,9 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".PlayersMenuActivity"
-    android:background="#222" >
+    android:background="#725639" >
 
-    <ImageView
+<ImageView
         android:id="@+id/imageView"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -17,7 +17,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/background_ingame" />
+        app:srcCompat="@drawable/background_intro" />
 
     <TextView
         android:id="@+id/textView"
@@ -26,7 +26,7 @@
         android:layout_marginTop="48dp"
         android:text="¿CUÁNTOS JUGADORES SOIS?"
         android:textAlignment="center"
-        android:textColor="@android:color/darker_gray"
+        android:textColor="#333"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".GameActivity"
-    android:background="#222" >
+    android:background="#EBB275" >
 
 
     <ImageView
@@ -18,12 +18,12 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/background_ingame" />
+        app:srcCompat="@drawable/background_intro" />
 
     <ImageView
         android:id="@+id/ruletaIntro"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
+        android:layout_width="360dp"
+        android:layout_height="360dp"
         android:background="@drawable/ruleta_ingame"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
