@@ -12,6 +12,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 public class NamesActivity extends AppCompatActivity {
 
     private ImageView playButton;
@@ -41,9 +43,7 @@ public class NamesActivity extends AppCompatActivity {
             case PLAYER_4:
                 createTextFields(PLAYER_4);
                 break;
-
-
-            }
+        }
 
 
 
@@ -54,7 +54,23 @@ public class NamesActivity extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
+
+                LinearLayout lrLayout = findViewById(R.id.linearLayout);
+                int numTextViews = lrLayout.getChildCount();
+
+                ArrayList<String> names = new ArrayList<>();
+
+                for(int i = 2; i < numTextViews; i++)
+                {
+                    if(lrLayout.getChildAt(i) instanceof EditText)
+                    {
+                        names.add(((EditText)lrLayout.getChildAt(i)).getText().toString());
+                    }
+                }
+
                 Intent gameIntent = new Intent(getApplicationContext(), GameActivity.class);
+                gameIntent.putExtra("numPlayers", clickedButton);
+                gameIntent.putExtra("namePlayers", names.toArray(new String[names.size()]));
                 startActivity(gameIntent);
 
             }
@@ -77,8 +93,11 @@ public class NamesActivity extends AppCompatActivity {
             tvPlayer.setText("PLAYER " + i);
 
             lrLayout.addView(tvPlayer);
-            lrLayout.addView(new EditText(this));
 
+            EditText evPlayer = new EditText(this);
+            evPlayer.setMaxLines(1);
+
+            lrLayout.addView(evPlayer);
         }
     }
 }

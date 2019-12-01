@@ -1,23 +1,14 @@
 package com.example.ruletadelasuerte;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.content.res.AppCompatResources;
-import androidx.dynamicanimation.animation.DynamicAnimation;
-import androidx.dynamicanimation.animation.FlingAnimation;
 
 import android.content.Intent;
-import android.content.res.Resources;
-import android.content.res.TypedArray;
-import android.content.res.XmlResourceParser;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.VectorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.AnimationSet;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import java.util.Random;
 
@@ -25,12 +16,25 @@ public class GameActivity extends AppCompatActivity {
 
     private ImageView ruleta;
     private AnimationSet animSet;
+    private int numPlayers = 0;
+    private String[] namePlayers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
+        Intent intent = getIntent();
+
+        this.numPlayers = Integer.valueOf(intent.getStringExtra("numPlayers"));
+        this.namePlayers = intent.getStringArrayExtra("namePlayers");
+
+        addRuletaAnimation();
+
+    }
+
+    private void addRuletaAnimation()
+    {
         ruleta = findViewById(R.id.ruletaIntro);
 
         animSet = new AnimationSet(true);
