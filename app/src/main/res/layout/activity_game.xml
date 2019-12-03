@@ -37,8 +37,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="TextView"
-        tools:layout_editor_absoluteX="176dp"
-        tools:layout_editor_absoluteY="673dp" />
+        tools:layout_editor_absoluteX="138dp"
+        tools:layout_editor_absoluteY="67dp" />
 
     <ImageView
         android:id="@+id/iconPlayer1"
@@ -151,6 +151,15 @@
         android:layout_height="wrap_content"
         app:barrierDirection="left"
         tools:layout_editor_absoluteX="411dp" />
+
+    <TableLayout
+        android:id="@+id/panel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/guideline"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imageView" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
