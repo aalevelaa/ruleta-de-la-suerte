@@ -44,6 +44,8 @@
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/roulette_keyboard"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/namePlayer1"
         app:srcCompat="@mipmap/ic_launcher"
@@ -66,6 +68,8 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/roulette_keyboard"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/namePlayer2"
         app:srcCompat="@mipmap/ic_launcher"
@@ -101,9 +105,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
         android:text="Nombre chupi guay"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="617dp" />
+        app:layout_constraintTop_toBottomOf="@+id/roulette_keyboard" />
 
     <ImageView
         android:id="@+id/iconPlayer4"
@@ -123,11 +128,12 @@
         android:id="@+id/namePlayer4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:text="Nombre chupi guay"
         app:layout_constraintEnd_toEndOf="parent"
-        tools:layout_editor_absoluteY="617dp" />
+        app:layout_constraintTop_toBottomOf="@+id/roulette_keyboard" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"
