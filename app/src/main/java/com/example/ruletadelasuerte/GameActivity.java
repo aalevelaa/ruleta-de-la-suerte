@@ -1,8 +1,10 @@
 package com.example.ruletadelasuerte;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.AnimationSet;
@@ -15,7 +17,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class GameActivity extends AppCompatActivity {
+public class GameActivity extends AppCompatActivity implements RouletteFragment.OnFragmentInteractionListener {
 
     private ImageView ruleta;
     private int numPlayers = 0;
@@ -28,13 +30,19 @@ public class GameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
+        //Gets info from last Activity
         Intent intent = getIntent();
 
         this.numPlayers = Integer.valueOf(intent.getStringExtra("numPlayers"));
         this.namePlayers = intent.getStringArrayExtra("namePlayers");
 
-        TableRow.LayoutParams rowParams = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
+        //Sets RouletteKeyboardAdapter to ViewPager
+        ViewPager v = findViewById(R.id.roulette_keyboard);
+        RouletteKeyboardAdapter adapter = new RouletteKeyboardAdapter(getSupportFragmentManager());
+        v.setAdapter(adapter);
 
+
+        TableRow.LayoutParams rowParams = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
 
         this.frase = getResources().getStringArray(R.array.frases)[0];
 
@@ -62,43 +70,8 @@ public class GameActivity extends AppCompatActivity {
             ((TableLayout)findViewById(R.id.panel)).addView(tableRow);
         }
 
-
-
-        addRuletaAnimation();
-
     }
 
-    private void addRuletaAnimation()
-    {
-        ruleta = findViewById(R.id.ruletaIntro);
-
-        ruleta.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                float r = (float) new Random().nextInt(360);
-
-                final RotateAnimation animRotate = new RotateAnimation(0.0f, -r+5-360,
-                        RotateAnimation.RELATIVE_TO_SELF, 0.5f,
-                        RotateAnimation.RELATIVE_TO_SELF, 0.5f);
-
-
-                animRotate.setDuration(3000);
-                animRotate.setFillAfter(true);
-
-                ruleta.startAnimation(animRotate);
-
-                //lastRDiff = 360f - r;
-
-                TextView tv = findViewById(R.id.textView2);
-
-                String[] casillas = getResources().getStringArray(R.array.casillas);
-
-                tv.setText(casillas[(int) (Math.ceil(r/15)-1)]);
-            }
-        });
-    }
 
     private String[] splitFrase()
     {
@@ -133,4 +106,8 @@ public class GameActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
+    }
 }

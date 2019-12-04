@@ -20,17 +20,14 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/background_intro" />
 
-    <ImageView
-        android:id="@+id/ruletaIntro"
-        android:layout_width="240dp"
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/roulette_keyboard"
+        android:layout_width="0dp"
         android:layout_height="240dp"
-        android:background="@drawable/ruleta_ingame"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.751" />
+        app:layout_constraintTop_toTopOf="@+id/guideline" />
 
     <TextView
         android:id="@+id/textView2"
@@ -47,8 +44,6 @@
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/ruletaIntro"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/namePlayer1"
         app:srcCompat="@mipmap/ic_launcher"
@@ -71,8 +66,6 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/ruletaIntro"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/namePlayer2"
         app:srcCompat="@mipmap/ic_launcher"
@@ -108,10 +101,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
         android:text="Nombre chupi guay"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ruletaIntro" />
+        tools:layout_editor_absoluteY="617dp" />
 
     <ImageView
         android:id="@+id/iconPlayer4"
@@ -131,12 +123,11 @@
         android:id="@+id/namePlayer4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:text="Nombre chupi guay"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ruletaIntro" />
+        tools:layout_editor_absoluteY="617dp" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"
