@@ -5,7 +5,7 @@
     android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#725639"
+    android:background="#EBB275"
     tools:context=".NamesActivity">
 
 

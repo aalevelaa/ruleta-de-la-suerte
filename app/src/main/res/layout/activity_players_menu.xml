@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".PlayersMenuActivity"
-    android:background="#725639" >
+    android:background="#EBB275"
+    tools:context=".PlayersMenuActivity" >
 
 <ImageView
         android:id="@+id/imageView"

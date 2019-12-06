@@ -15,18 +15,10 @@ import android.widget.TextView;
 
 import java.util.Random;
 
-
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link RouletteFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link RouletteFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class RouletteFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
+    private float startingDegrees = 0f;
 
     public RouletteFragment() {
         // Required empty public constructor
@@ -40,7 +32,7 @@ public class RouletteFragment extends Fragment {
      * @param param2 Parameter 2.
      * @return A new instance of fragment RouletteFragment.
      */
-    // TODO: Rename and change types and number of parameters
+
     public static RouletteFragment newInstance(String param1, String param2) {
         RouletteFragment fragment = new RouletteFragment();
         return fragment;
@@ -93,15 +85,15 @@ public class RouletteFragment extends Fragment {
     {
         float r = (float) new Random().nextInt(360);
 
-        final RotateAnimation animRotate = new RotateAnimation(0.0f, -r+5-360,
+        final RotateAnimation animRotate = new RotateAnimation(startingDegrees, r-5+360,
                 RotateAnimation.RELATIVE_TO_SELF, 0.5f,
                 RotateAnimation.RELATIVE_TO_SELF, 0.5f);
-
 
         animRotate.setDuration(3000);
         animRotate.setFillAfter(true);
 
         v.startAnimation(animRotate);
+
 
         //This is old code from when the roulette wasn't a fragment
 
@@ -125,7 +117,7 @@ public class RouletteFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
+
         void onFragmentInteraction(Uri uri);
     }
 }

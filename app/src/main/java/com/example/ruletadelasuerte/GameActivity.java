@@ -25,6 +25,8 @@ public class GameActivity extends AppCompatActivity implements RouletteFragment.
     private float lastRDiff = 0;
     private String frase = "";
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +37,8 @@ public class GameActivity extends AppCompatActivity implements RouletteFragment.
 
         this.numPlayers = Integer.valueOf(intent.getStringExtra("numPlayers"));
         this.namePlayers = intent.getStringArrayExtra("namePlayers");
+
+        setAvatars(numPlayers);
 
         //Sets RouletteKeyboardAdapter to ViewPager
         ViewPager v = findViewById(R.id.roulette_keyboard);
@@ -103,6 +107,30 @@ public class GameActivity extends AppCompatActivity implements RouletteFragment.
 
 
         return sol.toArray(new String[sol.size()]);
+    }
+
+
+    private void setAvatars(int numPlayers)
+    {
+        ImageView player1 = findViewById(R.id.iconPlayer1);
+        ImageView player2 = findViewById(R.id.iconPlayer2);
+        ImageView player3 = findViewById(R.id.iconPlayer3);
+        ImageView player4 = findViewById(R.id.iconPlayer4);
+
+        int[] avatars = {R.drawable.ic_avatar_bota,
+                        R.drawable.ic_avatar_carretilla,
+                        R.drawable.ic_avatar_coche,
+                        R.drawable.ic_avatar_dedal,
+                        R.drawable.ic_avatar_perro,
+                        R.drawable.ic_avatar_plancha,
+                        R.drawable.ic_avatar_sombrero
+        };
+
+        Random rand = new Random();
+        player1.setImageResource(avatars[rand.nextInt(avatars.length)]);
+        player2.setImageResource(avatars[rand.nextInt(avatars.length)]);
+        player3.setImageResource(avatars[rand.nextInt(avatars.length)]);
+        player4.setImageResource(avatars[rand.nextInt(avatars.length)]);
     }
 
 
