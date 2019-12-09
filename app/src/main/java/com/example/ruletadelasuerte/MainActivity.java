@@ -23,6 +23,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+
         ruletaIntro = findViewById(R.id.ruletaIntro);
         playButton = findViewById(R.id.playButton);
 

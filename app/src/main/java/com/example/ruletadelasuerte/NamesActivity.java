@@ -27,6 +27,9 @@ public class NamesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_names);
+
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+
         Intent intent = getIntent();
         clickedButton = intent.getStringExtra("clicked_button");
 

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#EBB275"
+    android:background="@color/colorPrimary"
     tools:context=".GameActivity">
 
 
@@ -48,7 +48,6 @@
         app:layout_constraintBottom_toTopOf="@+id/roulette_keyboard"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/namePlayer1"
-        app:srcCompat="@mipmap/ic_launcher"
         tools:srcCompat="@tools:sample/avatars[1]" />
 
     <TextView
@@ -72,7 +71,6 @@
         app:layout_constraintBottom_toTopOf="@+id/roulette_keyboard"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/namePlayer2"
-        app:srcCompat="@mipmap/ic_launcher"
         tools:srcCompat="@tools:sample/avatars[2]" />
 
     <TextView
@@ -96,7 +94,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/namePlayer3"
-        app:srcCompat="@drawable/ruleta_icon"
         tools:srcCompat="@tools:sample/avatars[4]" />
 
     <TextView
@@ -121,7 +118,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/namePlayer4"
-        app:srcCompat="@mipmap/ic_launcher"
         tools:srcCompat="@tools:sample/avatars[9]" />
 
     <TextView

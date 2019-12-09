@@ -20,7 +20,7 @@ import java.util.Random;
 public class GameActivity extends AppCompatActivity implements RouletteFragment.OnFragmentInteractionListener {
 
     private ImageView ruleta;
-    private int numPlayers = 0;
+    private int numPlayers;
     private String[] namePlayers;
     private float lastRDiff = 0;
     private String frase = "";
@@ -32,10 +32,12 @@ public class GameActivity extends AppCompatActivity implements RouletteFragment.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+
         //Gets info from last Activity
         Intent intent = getIntent();
 
-        this.numPlayers = Integer.valueOf(intent.getStringExtra("numPlayers"));
+        this.numPlayers = intent.getIntExtra("numPlayers", numPlayers);
         this.namePlayers = intent.getStringArrayExtra("namePlayers");
 
         setAvatars(numPlayers);
