@@ -17,7 +17,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class GameActivity extends AppCompatActivity implements RouletteFragment.OnFragmentInteractionListener {
+public class GameActivity extends AppCompatActivity implements RouletteFragment.OnFragmentInteractionListener, KeyboardFragment.OnFragmentInteractionListener {
 
     private ImageView ruleta;
     private int numPlayers;
@@ -138,6 +138,11 @@ public class GameActivity extends AppCompatActivity implements RouletteFragment.
 
     @Override
     public void onFragmentInteraction(Uri uri) {
+
+    }
+
+    @Override
+    public void onKeyboardInteraction(Uri uri) {
 
     }
 }
