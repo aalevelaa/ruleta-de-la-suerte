@@ -51,6 +51,7 @@ public class KeyboardFragment extends Fragment implements View.OnClickListener
         addButtonEffect((ViewGroup) layout.findViewById(R.id.primeraFIlaConsonantes));
         addButtonEffect((ViewGroup) layout.findViewById(R.id.segundaFilaConsonantes));
         addButtonEffect((ViewGroup) layout.findViewById(R.id.filaVocales));
+        addButtonEffect((ViewGroup) layout.findViewById(R.id.filaResolver));
 
         return layout;
     }
@@ -109,7 +110,7 @@ public class KeyboardFragment extends Fragment implements View.OnClickListener
 
         onButtonPressed(letra);
     }
-    
+
 
     /**
      * This interface must be implemented by activities that contain this
