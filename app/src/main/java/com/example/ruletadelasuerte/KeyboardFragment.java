@@ -12,11 +12,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
-public class KeyboardFragment extends Fragment implements View.OnClickListener{
+public class KeyboardFragment extends Fragment implements View.OnClickListener
+{
 
     private OnFragmentInteractionListener mListener;
 
-    public KeyboardFragment() {
+    public KeyboardFragment()
+    {
         // Required empty public constructor
     }
 
@@ -29,7 +31,8 @@ public class KeyboardFragment extends Fragment implements View.OnClickListener{
      * @return A new instance of fragment KeyboardFragment.
      */
 
-    public static KeyboardFragment newInstance(String param1, String param2) {
+    public static KeyboardFragment newInstance(String param1, String param2)
+    {
         KeyboardFragment fragment = new KeyboardFragment();
         return fragment;
     }
@@ -41,11 +44,14 @@ public class KeyboardFragment extends Fragment implements View.OnClickListener{
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+                             Bundle savedInstanceState)
+    {
         // Inflate the layout for this fragment
         View layout = inflater.inflate(R.layout.fragment_keyboard, container, false);
         addButtonEffect((ViewGroup) layout.findViewById(R.id.primeraFIlaConsonantes));
         addButtonEffect((ViewGroup) layout.findViewById(R.id.segundaFilaConsonantes));
+        addButtonEffect((ViewGroup) layout.findViewById(R.id.filaVocales));
+
         return layout;
     }
 
@@ -66,33 +72,44 @@ public class KeyboardFragment extends Fragment implements View.OnClickListener{
     }
 
     // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(String result) {
-        if (mListener != null) {
+    public void onButtonPressed(String result)
+    {
+        if (mListener != null)
+        {
             mListener.onKeyboardInteraction(result);
         }
     }
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(Context context)
+    {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
+        if (context instanceof OnFragmentInteractionListener)
+        {
             mListener = (OnFragmentInteractionListener) context;
-        } else {
+        } else
+        {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
     }
 
     @Override
-    public void onDetach() {
+    public void onDetach()
+    {
         super.onDetach();
         mListener = null;
     }
 
     @Override
-    public void onClick(View v) {
-        onButtonPressed("hola");
+    public void onClick(View v)
+    {
+        Button b = (Button )v;
+        String letra = (String) b.getText();
+
+        onButtonPressed(letra);
     }
+    
 
     /**
      * This interface must be implemented by activities that contain this
@@ -104,8 +121,10 @@ public class KeyboardFragment extends Fragment implements View.OnClickListener{
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
+
+
+    public interface OnFragmentInteractionListener
+    {
         void onKeyboardInteraction(String result);
     }
 }
