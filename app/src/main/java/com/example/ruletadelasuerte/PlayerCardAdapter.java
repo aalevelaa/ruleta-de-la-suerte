@@ -17,12 +17,18 @@ public class PlayerCardAdapter extends RecyclerView.Adapter<PlayerCardAdapter.My
 
     private Activity PlayersMenuActivity;
     private LayoutInflater inflater;
-    private static int numHolder = 1;
+    private int numCards = 2;
 
     public PlayerCardAdapter(Context c)
     {
         this.PlayersMenuActivity = (Activity)c;
         this.inflater = PlayersMenuActivity.getLayoutInflater();
+    }
+
+    public void changeNumCards(int n)
+    {
+       this.numCards = n;
+       notifyDataSetChanged();
     }
 
     @NonNull
@@ -38,7 +44,6 @@ public class PlayerCardAdapter extends RecyclerView.Adapter<PlayerCardAdapter.My
         {
             Log.i("Informacion",e.getMessage().toString());
         }
-        numHolder++;
         return new MyViewHolder(v);
     }
 
@@ -49,7 +54,7 @@ public class PlayerCardAdapter extends RecyclerView.Adapter<PlayerCardAdapter.My
 
     @Override
     public int getItemCount() {
-        return 4;
+        return this.numCards;
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder
