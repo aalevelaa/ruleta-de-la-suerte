@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,22 +19,24 @@ import java.util.Random;
 public class RouletteFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
-    private float startingDegrees = 0f;
+    private String result = "";
+    private boolean spinning = false;
 
     public RouletteFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment RouletteFragment.
-     */
+    public void setSpinning(boolean spinning)
+    {
+       this.spinning = spinning;
+    }
 
-    public static RouletteFragment newInstance(String param1, String param2) {
+    public boolean getSpinning()
+    {
+        return this.spinning;
+    }
+
+    public static RouletteFragment newInstance() {
         RouletteFragment fragment = new RouletteFragment();
         return fragment;
     }
@@ -58,7 +61,7 @@ public class RouletteFragment extends Fragment {
     }
 
     // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
+    public void onButtonPressed(String uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
         }
@@ -83,27 +86,27 @@ public class RouletteFragment extends Fragment {
 
     public void spinRoulette(View v)
     {
-        float r = (float) new Random().nextInt(360);
+        if(!this.spinning)
+        {
+            float r = (float) new Random().nextInt(360);
 
-        final RotateAnimation animRotate = new RotateAnimation(startingDegrees, r-5+360,
-                RotateAnimation.RELATIVE_TO_SELF, 0.5f,
-                RotateAnimation.RELATIVE_TO_SELF, 0.5f);
+            final RotateAnimation animRotate = new RotateAnimation(0f, -r+5-360,
+                    RotateAnimation.RELATIVE_TO_SELF, 0.5f,
+                    RotateAnimation.RELATIVE_TO_SELF, 0.5f);
 
-        animRotate.setDuration(3000);
-        animRotate.setFillAfter(true);
+            animRotate.setDuration(3000);
+            animRotate.setFillAfter(true);
 
-        v.startAnimation(animRotate);
+            v.startAnimation(animRotate);
 
+            String[] casillas = getResources().getStringArray(R.array.casillas);
 
-        //This is old code from when the roulette wasn't a fragment
+            Log.i("grados", r+"");
 
-        //lastRDiff = 360f - r;
-
-        //TextView tv = findViewById(R.id.textView2);
-
-        //String[] casillas = getResources().getStringArray(R.array.casillas);
-
-        //tv.setText(casillas[(int) (Math.ceil(r/15)-1)]);
+            this.result = (casillas[(int) (Math.ceil(r/15)-1)]);
+            onButtonPressed(this.result);
+            this.spinning = true;
+        }
     }
 
     /**
@@ -117,7 +120,6 @@ public class RouletteFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-
-        void onFragmentInteraction(Uri uri);
+        void onFragmentInteraction(String result);
     }
 }

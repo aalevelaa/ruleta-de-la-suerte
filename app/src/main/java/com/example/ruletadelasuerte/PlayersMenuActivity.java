@@ -1,6 +1,7 @@
 package com.example.ruletadelasuerte;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -85,7 +86,7 @@ public class PlayersMenuActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                LinearLayout lrLayout = findViewById(R.id.linearLayout);
+                LinearLayout lrLayout = findViewById(R.id.namesLayout);
                 int numTextViews = lrLayout.getChildCount();
 
                 ArrayList<String> names = new ArrayList<>();

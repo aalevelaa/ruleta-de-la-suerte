@@ -1,11 +1,13 @@
 package com.example.ruletadelasuerte;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.AnimationSet;
 import android.view.animation.RotateAnimation;
@@ -19,11 +21,11 @@ import java.util.Random;
 
 public class GameActivity extends AppCompatActivity implements RouletteFragment.OnFragmentInteractionListener, KeyboardFragment.OnFragmentInteractionListener {
 
-    private ImageView ruleta;
     private int numPlayers;
     private String[] namePlayers;
-    private float lastRDiff = 0;
     private String frase = "";
+    private RouletteKeyboardAdapter adapter;
+    private ViewPager viewPager;
 
 
 
@@ -43,10 +45,9 @@ public class GameActivity extends AppCompatActivity implements RouletteFragment.
         setAvatars(numPlayers);
 
         //Sets RouletteKeyboardAdapter to ViewPager
-        ViewPager v = findViewById(R.id.roulette_keyboard);
-        RouletteKeyboardAdapter adapter = new RouletteKeyboardAdapter(getSupportFragmentManager());
-        v.setAdapter(adapter);
-
+        viewPager = findViewById(R.id.roulette_keyboard);
+        this.adapter = new RouletteKeyboardAdapter(getSupportFragmentManager());
+        viewPager.setAdapter(adapter);
 
         TableRow.LayoutParams rowParams = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
 
@@ -137,12 +138,17 @@ public class GameActivity extends AppCompatActivity implements RouletteFragment.
 
 
     @Override
-    public void onFragmentInteraction(Uri uri) {
+    public void onFragmentInteraction(String result)
+    {
+        TextView actual = this.findViewById(R.id.textView2);
+        actual.setText(result);
 
     }
 
     @Override
-    public void onKeyboardInteraction(Uri uri) {
-
+    public void onKeyboardInteraction(String result)
+    {
+        RouletteFragment fragment = (RouletteFragment) this.adapter.getItem(0);
+        fragment.setSpinning(false);
     }
 }

@@ -9,8 +9,10 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
 
-public class KeyboardFragment extends Fragment {
+public class KeyboardFragment extends Fragment implements View.OnClickListener{
 
     private OnFragmentInteractionListener mListener;
 
@@ -41,13 +43,32 @@ public class KeyboardFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_keyboard, container, false);
+        View layout = inflater.inflate(R.layout.fragment_keyboard, container, false);
+        addButtonEffect((ViewGroup) layout.findViewById(R.id.primeraFIlaConsonantes));
+        addButtonEffect((ViewGroup) layout.findViewById(R.id.segundaFilaConsonantes));
+        return layout;
+    }
+
+    private void addButtonEffect(ViewGroup v)
+    {
+        for (int i = 0; i < v.getChildCount() ; i++)
+        {
+            View currentChild = v.getChildAt(i);
+
+            if( currentChild instanceof Button)
+            {
+                currentChild.setOnClickListener(this);
+            } else if (currentChild instanceof LinearLayout)
+            {
+                addButtonEffect((ViewGroup) currentChild);
+            }
+        }
     }
 
     // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
+    public void onButtonPressed(String result) {
         if (mListener != null) {
-            mListener.onKeyboardInteraction(uri);
+            mListener.onKeyboardInteraction(result);
         }
     }
 
@@ -68,6 +89,11 @@ public class KeyboardFragment extends Fragment {
         mListener = null;
     }
 
+    @Override
+    public void onClick(View v) {
+        onButtonPressed("hola");
+    }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -80,6 +106,6 @@ public class KeyboardFragment extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onKeyboardInteraction(Uri uri);
+        void onKeyboardInteraction(String result);
     }
 }
