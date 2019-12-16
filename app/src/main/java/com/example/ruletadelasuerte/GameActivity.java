@@ -10,6 +10,8 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TableLayout;
@@ -31,6 +33,13 @@ public class GameActivity extends AppCompatActivity implements RouletteFragment.
     private int currentPlayer = 1;
     private int currentPoints = 0;
 
+
+    private ArrayList<ImageView> playersAvatars = new ArrayList<>();
+
+
+
+    Animation bounceAnim;
+
     private ArrayList<TextView> playersNames = new ArrayList<>();
     private ArrayList<TextView> playersPoints = new ArrayList<>();
 
@@ -42,17 +51,24 @@ public class GameActivity extends AppCompatActivity implements RouletteFragment.
 
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 
-        //Gets info from last Activity
+        // Gets info from last Activity
         Intent intent = getIntent();
 
         this.numPlayers = intent.getIntExtra("numPlayers", numPlayers);
         this.namePlayers = intent.getStringArrayExtra("namePlayers");
 
-        //Sets all the text vies for the players data
+        //
+        playersAvatars.add((ImageView) findViewById(R.id.iconPlayer1));
+        playersAvatars.add((ImageView) findViewById(R.id.iconPlayer2));
+        playersAvatars.add((ImageView) findViewById(R.id.iconPlayer3));
+        playersAvatars.add((ImageView) findViewById(R.id.iconPlayer4));
+
+        // Sets all the textviews for the players data
         playersNames.add((TextView) findViewById(R.id.namePlayer1));
         playersNames.add((TextView) findViewById(R.id.namePlayer2));
         playersNames.add((TextView) findViewById(R.id.namePlayer3));
         playersNames.add((TextView) findViewById(R.id.namePlayer4));
+
         playersPoints.add((TextView) findViewById(R.id.pointsPlayer1));
         playersPoints.add((TextView) findViewById(R.id.pointsPlayer2));
         playersPoints.add((TextView) findViewById(R.id.pointsPlayer3));
@@ -61,7 +77,12 @@ public class GameActivity extends AppCompatActivity implements RouletteFragment.
         setAvatars();
         setNames();
 
-        //Sets RouletteKeyboardAdapter to ViewPager
+        // Sets breath animation to first player's icon
+        ImageView currentAvatar = playersAvatars.get(currentPlayer - 1);
+
+        this.setAnimation(currentAvatar);
+
+        // Sets RouletteKeyboardAdapter to ViewPager
         viewPager = findViewById(R.id.roulette_keyboard);
         this.adapter = new RouletteKeyboardAdapter(getSupportFragmentManager());
         viewPager.setAdapter(adapter);
@@ -143,32 +164,6 @@ public class GameActivity extends AppCompatActivity implements RouletteFragment.
     }
 
 
-    private void setAvatars()
-    {
-        ArrayList<ImageView> playersAvatars = new ArrayList<>();
-
-        playersAvatars.add((ImageView) findViewById(R.id.iconPlayer1));
-        playersAvatars.add((ImageView) findViewById(R.id.iconPlayer2));
-        playersAvatars.add((ImageView) findViewById(R.id.iconPlayer3));
-        playersAvatars.add((ImageView) findViewById(R.id.iconPlayer4));
-
-        int[] avatars = {R.drawable.ic_avatar_bota,
-                        R.drawable.ic_avatar_carretilla,
-                        R.drawable.ic_avatar_coche,
-                        R.drawable.ic_avatar_dedal,
-                        R.drawable.ic_avatar_perro,
-                        R.drawable.ic_avatar_plancha,
-                        R.drawable.ic_avatar_sombrero
-        };
-
-        Random rand = new Random();
-
-        for(int i = 0; i < numPlayers; i++)
-        {
-            playersAvatars.get(i).setImageResource(avatars[rand.nextInt(avatars.length)]);
-        }
-    }
-
     private void setNames()
     {
         for(int i = 0; i < numPlayers; i++)
@@ -179,20 +174,51 @@ public class GameActivity extends AppCompatActivity implements RouletteFragment.
     }
 
 
+    private void setAvatars()
+    {
+        ArrayList<Integer> imagesAvatars = new ArrayList<>();
+
+        imagesAvatars.add(R.drawable.ic_avatar_bota);
+        imagesAvatars.add(R.drawable.ic_avatar_carretilla);
+        imagesAvatars.add(R.drawable.ic_avatar_dedal);
+        imagesAvatars.add(R.drawable.ic_avatar_perro);
+        imagesAvatars.add(R.drawable.ic_avatar_plancha);
+        imagesAvatars.add(R.drawable.ic_avatar_sombrero);
+
+        Random rand = new Random();
+
+        for(int i = 0; i < numPlayers; i++)
+        {
+            int random = rand.nextInt(imagesAvatars.size());
+            playersAvatars.get(i).setImageResource(imagesAvatars.get(random));
+            //playersAvatars.remove(random);
+        }
+    }
+
+
+    private void setAnimation(ImageView avatar)
+    {
+        bounceAnim = AnimationUtils.loadAnimation(this, R.anim.bounce);
+        MyBounceInterpolator interpolator = new MyBounceInterpolator(0.2, 500);
+        bounceAnim.setInterpolator(interpolator);
+        avatar.startAnimation(bounceAnim);
+    }
+
+
     @Override
     public void onFragmentInteraction(String result)
     {
         RouletteFragment fragment = (RouletteFragment) this.adapter.getItem(0);
-        if(result.toLowerCase().equals("quiebra"))
+        if (result.toLowerCase().equals("quiebra"))
         {
             fragment.setSpinning(false);
             passTurn();
-            this.playersPoints.get(this.currentPlayer-1).setText("0");
-        }else if(result.toLowerCase().equals("turno"))
+            this.playersPoints.get(this.currentPlayer - 1).setText("0");
+        } else if (result.toLowerCase().equals("turno"))
         {
             fragment.setSpinning(false);
             passTurn();
-        }else
+        } else
         {
             this.currentPoints = Integer.parseInt(result);
         }
@@ -239,7 +265,7 @@ public class GameActivity extends AppCompatActivity implements RouletteFragment.
                         t.setTextColor(Color.BLACK);
                     }
                     currentPlayerPoints -= 30*matches.size();
-                    this.playersPoints.get(this.currentPlayer - 1).setText(currentPlayerPoints+"");
+                    this.playersPoints.get(this.currentPlayer - 1).setText(currentPlayerPoints + "");
                     passTurn();
                 }
             }else if(result.toUpperCase().equals("RESOLVER"))
@@ -251,8 +277,8 @@ public class GameActivity extends AppCompatActivity implements RouletteFragment.
                 {
                     t.setTextColor(Color.BLACK);
                 }
-                currentPlayerPoints += currentPoints*matches.size();
-                this.playersPoints.get(this.currentPlayer - 1).setText(currentPlayerPoints+"");
+                currentPlayerPoints += currentPoints * matches.size();
+                this.playersPoints.get(this.currentPlayer - 1).setText(currentPlayerPoints + "");
                 passTurn();
             }
         }
@@ -261,7 +287,9 @@ public class GameActivity extends AppCompatActivity implements RouletteFragment.
 
     private void passTurn()
     {
-        this.currentPlayer = (this.currentPlayer%this.numPlayers) + 1;
+        playersAvatars.get(this.currentPlayer - 1).clearAnimation();
+        this.currentPlayer = (this.currentPlayer % this.numPlayers) + 1;
+        this.setAnimation(playersAvatars.get(this.currentPlayer - 1));
     }
 
     @Override

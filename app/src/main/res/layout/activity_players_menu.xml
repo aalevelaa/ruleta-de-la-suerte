@@ -36,7 +36,7 @@
     <LinearLayout
         android:id="@+id/constraintLayout"
         android:layout_width="0dp"
-        android:layout_height="110dp"
+        android:layout_height="100dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -88,7 +88,8 @@
         app:layout_constraintBottom_toBottomOf="@+id/imageView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
+        app:layout_constraintVertical_bias="0.19999999">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/namesRecycler"
