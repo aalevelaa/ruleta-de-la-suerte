@@ -1,26 +1,25 @@
 package com.example.ruletadelasuerte;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.view.animation.AnimationSet;
-import android.view.animation.RotateAnimation;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.regex.Pattern;
 
 public class GameActivity extends AppCompatActivity implements RouletteFragment.OnFragmentInteractionListener, KeyboardFragment.OnFragmentInteractionListener {
 
@@ -29,6 +28,11 @@ public class GameActivity extends AppCompatActivity implements RouletteFragment.
     private String frase = "";
     private RouletteKeyboardAdapter adapter;
     private ViewPager viewPager;
+    private int currentPlayer = 1;
+    private int currentPoints = 0;
+
+    private ArrayList<TextView> playersNames = new ArrayList<>();
+    private ArrayList<TextView> playersPoints = new ArrayList<>();
 
 
     @Override
@@ -44,6 +48,16 @@ public class GameActivity extends AppCompatActivity implements RouletteFragment.
         this.numPlayers = intent.getIntExtra("numPlayers", numPlayers);
         this.namePlayers = intent.getStringArrayExtra("namePlayers");
 
+        //Sets all the text vies for the players data
+        playersNames.add((TextView) findViewById(R.id.namePlayer1));
+        playersNames.add((TextView) findViewById(R.id.namePlayer2));
+        playersNames.add((TextView) findViewById(R.id.namePlayer3));
+        playersNames.add((TextView) findViewById(R.id.namePlayer4));
+        playersPoints.add((TextView) findViewById(R.id.pointsPlayer1));
+        playersPoints.add((TextView) findViewById(R.id.pointsPlayer2));
+        playersPoints.add((TextView) findViewById(R.id.pointsPlayer3));
+        playersPoints.add((TextView) findViewById(R.id.pointsPlayer4));
+
         setAvatars();
         setNames();
 
@@ -51,6 +65,7 @@ public class GameActivity extends AppCompatActivity implements RouletteFragment.
         viewPager = findViewById(R.id.roulette_keyboard);
         this.adapter = new RouletteKeyboardAdapter(getSupportFragmentManager());
         viewPager.setAdapter(adapter);
+
 
         TableRow.LayoutParams rowParams = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
 
@@ -69,17 +84,24 @@ public class GameActivity extends AppCompatActivity implements RouletteFragment.
                 text.setLayoutParams(rowParams);
                 text.setPadding(10, 10, 10, 0);
                 text.setTextSize(26f);
+                text.setTextColor(Color.WHITE);
                 text.setWidth(90);
                 text.setHeight(130);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
                     text.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
                 }
+                text.setText(c + "");
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        text.setBackground(getDrawable(R.drawable.text_view_back));
+                        if(text.getText().toString().equals(" "))
+                        {
+                            text.setBackground(getDrawable(R.drawable.text_view_back));
+                        }else
+                        {
+                            text.setBackground(getDrawable(R.drawable.text_view_white));
+                        }
                     }
                 }
-                text.setText(c + "");
 
                 tableRow.addView(text);
             }
@@ -149,16 +171,10 @@ public class GameActivity extends AppCompatActivity implements RouletteFragment.
 
     private void setNames()
     {
-        ArrayList<TextView> playersNames = new ArrayList<>();
-
-        playersNames.add((TextView) findViewById(R.id.namePlayer1));
-        playersNames.add((TextView) findViewById(R.id.namePlayer2));
-        playersNames.add((TextView) findViewById(R.id.namePlayer3));
-        playersNames.add((TextView) findViewById(R.id.namePlayer4));
-
         for(int i = 0; i < numPlayers; i++)
         {
             playersNames.get(i).setText(namePlayers[i]);
+            playersPoints.get(i).setText("0");
         }
     }
 
@@ -166,8 +182,20 @@ public class GameActivity extends AppCompatActivity implements RouletteFragment.
     @Override
     public void onFragmentInteraction(String result)
     {
-        TextView actual = this.findViewById(R.id.textView2);
-        actual.setText(result);
+        RouletteFragment fragment = (RouletteFragment) this.adapter.getItem(0);
+        if(result.toLowerCase().equals("quiebra"))
+        {
+            fragment.setSpinning(false);
+            passTurn();
+            this.playersPoints.get(this.currentPlayer-1).setText("0");
+        }else if(result.toLowerCase().equals("turno"))
+        {
+            fragment.setSpinning(false);
+            passTurn();
+        }else
+        {
+            this.currentPoints = Integer.parseInt(result);
+        }
 
     }
 
@@ -175,7 +203,65 @@ public class GameActivity extends AppCompatActivity implements RouletteFragment.
     public void onKeyboardInteraction(String result)
     {
         RouletteFragment fragment = (RouletteFragment) this.adapter.getItem(0);
+
+        int currentPlayerPoints = Integer.parseInt(playersPoints.get(this.currentPlayer - 1).getText().toString());
+        ArrayList<TextView> matches = new ArrayList<TextView>();
+
+        TableLayout panel = findViewById(R.id.panel);
+
+        if(fragment.getSpinning())
+        {
+            for(int i = 0; i < panel.getChildCount(); i++)
+            {
+                TableRow row = (TableRow) panel.getChildAt(i);
+
+                for (int j = 0; j < row.getChildCount(); j++)
+                {
+                    TextView letra = (TextView)row.getChildAt(j);
+                    if(letra.getText().toString().toLowerCase().equals(result.toLowerCase()))
+                    {
+                        matches.add(letra);
+                        //letra.setTextColor(Color.BLACK);
+                        //currentPlayerPoints += this.currentPoints;
+                    }
+                }
+            }
+            if(Pattern.matches("[AEIOU]", result))
+            {
+                if(currentPlayerPoints < this.currentPoints*matches.size())
+                {
+                    Toast.makeText(this, "No tienes puntos suficientes", Toast.LENGTH_SHORT).show();
+                    passTurn();
+                }else
+                {
+                    for(TextView t:matches)
+                    {
+                        t.setTextColor(Color.BLACK);
+                    }
+                    currentPlayerPoints -= 30*matches.size();
+                    this.playersPoints.get(this.currentPlayer - 1).setText(currentPlayerPoints+"");
+                    passTurn();
+                }
+            }else if(result.toUpperCase().equals("RESOLVER"))
+            {
+
+            }else
+            {
+                for(TextView t:matches)
+                {
+                    t.setTextColor(Color.BLACK);
+                }
+                currentPlayerPoints += currentPoints*matches.size();
+                this.playersPoints.get(this.currentPlayer - 1).setText(currentPlayerPoints+"");
+                passTurn();
+            }
+        }
         fragment.setSpinning(false);
+    }
+
+    private void passTurn()
+    {
+        this.currentPlayer = (this.currentPlayer%this.numPlayers) + 1;
     }
 
     @Override
