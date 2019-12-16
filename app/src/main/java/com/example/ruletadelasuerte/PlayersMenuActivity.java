@@ -79,19 +79,19 @@ public class PlayersMenuActivity extends AppCompatActivity {
                     CardView nameView = (CardView)rv.getLayoutManager().findViewByPosition(i);
                     if (nameView.findViewById(R.id.editTextName) instanceof EditText) {
                         String name = ((EditText) nameView.findViewById(R.id.editTextName)).getText().toString();
-                        if(name.length()==0)
+                        if (name.length()==0)
                         {
-                           Toast.makeText(getApplicationContext(), "Hola", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "Los nombres no pueden estar vacíos", Toast.LENGTH_SHORT).show();
                             emptyName = true;
 
-                        }else
+                        } else
                         {
                             names.add(name);
                         }
                     }
                 }
 
-                if(!emptyName)
+                if (!emptyName)
                 {
                     Intent gameIntent = new Intent(getApplicationContext(), GameActivity.class);
                     gameIntent.putExtra("numPlayers", adapter.getItemCount());

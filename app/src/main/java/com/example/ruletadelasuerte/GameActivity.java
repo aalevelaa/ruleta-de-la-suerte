@@ -33,13 +33,11 @@ public class GameActivity extends AppCompatActivity implements RouletteFragment.
     private int currentPlayer = 1;
     private int currentPoints = 0;
 
-
-    private ArrayList<ImageView> playersAvatars = new ArrayList<>();
-
-
+    Random rand = new Random();
 
     Animation bounceAnim;
 
+    private ArrayList<ImageView> playersAvatars = new ArrayList<>();
     private ArrayList<TextView> playersNames = new ArrayList<>();
     private ArrayList<TextView> playersPoints = new ArrayList<>();
 
@@ -90,7 +88,9 @@ public class GameActivity extends AppCompatActivity implements RouletteFragment.
 
         TableRow.LayoutParams rowParams = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
 
-        this.frase = getResources().getStringArray(R.array.frases)[0];
+        // Establish randomly the sentence to be guessed
+        String[] array = getResources().getStringArray(R.array.frases);
+        this.frase = array[rand.nextInt(array.length)];
 
         String[] fraseCortada = splitFrase();
 
@@ -108,16 +108,19 @@ public class GameActivity extends AppCompatActivity implements RouletteFragment.
                 text.setTextColor(Color.WHITE);
                 text.setWidth(90);
                 text.setHeight(130);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1)
+                {
                     text.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
                 }
                 text.setText(c + "");
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        if(text.getText().toString().equals(" "))
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
+                {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+                    {
+                        if (text.getText().toString().equals(" "))
                         {
                             text.setBackground(getDrawable(R.drawable.text_view_back));
-                        }else
+                        } else
                         {
                             text.setBackground(getDrawable(R.drawable.text_view_white));
                         }
@@ -126,7 +129,7 @@ public class GameActivity extends AppCompatActivity implements RouletteFragment.
 
                 tableRow.addView(text);
             }
-            ((TableLayout)findViewById(R.id.panel)).addView(tableRow);
+            ((TableLayout) findViewById(R.id.panel)).addView(tableRow);
         }
 
     }
@@ -185,9 +188,7 @@ public class GameActivity extends AppCompatActivity implements RouletteFragment.
         imagesAvatars.add(R.drawable.ic_avatar_plancha);
         imagesAvatars.add(R.drawable.ic_avatar_sombrero);
 
-        Random rand = new Random();
-
-        for(int i = 0; i < numPlayers; i++)
+        for (int i = 0; i < numPlayers; i++)
         {
             int random = rand.nextInt(imagesAvatars.size());
             playersAvatars.get(i).setImageResource(imagesAvatars.get(random));
@@ -199,7 +200,7 @@ public class GameActivity extends AppCompatActivity implements RouletteFragment.
     private void setAnimation(ImageView avatar)
     {
         bounceAnim = AnimationUtils.loadAnimation(this, R.anim.bounce);
-        MyBounceInterpolator interpolator = new MyBounceInterpolator(0.2, 500);
+        MyBounceInterpolator interpolator = new MyBounceInterpolator(0.3, 500);
         bounceAnim.setInterpolator(interpolator);
         avatar.startAnimation(bounceAnim);
     }
@@ -213,11 +214,18 @@ public class GameActivity extends AppCompatActivity implements RouletteFragment.
         {
             fragment.setSpinning(false);
             passTurn();
+
+            Toast.makeText(getApplicationContext(), "QUIEBRAAAAA", Toast.LENGTH_SHORT).show();
+
             this.playersPoints.get(this.currentPlayer - 1).setText("0");
+
         } else if (result.toLowerCase().equals("turno"))
         {
             fragment.setSpinning(false);
             passTurn();
+
+            Toast.makeText(getApplicationContext(), "PIERDES EL TURNO", Toast.LENGTH_SHORT).show();
+
         } else
         {
             this.currentPoints = Integer.parseInt(result);
@@ -231,13 +239,13 @@ public class GameActivity extends AppCompatActivity implements RouletteFragment.
         RouletteFragment fragment = (RouletteFragment) this.adapter.getItem(0);
 
         int currentPlayerPoints = Integer.parseInt(playersPoints.get(this.currentPlayer - 1).getText().toString());
-        ArrayList<TextView> matches = new ArrayList<TextView>();
+        ArrayList<TextView> matches = new ArrayList<>();
 
         TableLayout panel = findViewById(R.id.panel);
 
-        if(fragment.getSpinning())
+        if (fragment.getSpinning())
         {
-            for(int i = 0; i < panel.getChildCount(); i++)
+            for (int i = 0; i < panel.getChildCount(); i++)
             {
                 TableRow row = (TableRow) panel.getChildAt(i);
 
@@ -247,33 +255,36 @@ public class GameActivity extends AppCompatActivity implements RouletteFragment.
                     if(letra.getText().toString().toLowerCase().equals(result.toLowerCase()))
                     {
                         matches.add(letra);
+
+                        Toast.makeText(getApplicationContext(), "Hay " + letra.getText(), Toast.LENGTH_SHORT).show();
+
                         //letra.setTextColor(Color.BLACK);
                         //currentPlayerPoints += this.currentPoints;
                     }
                 }
             }
-            if(Pattern.matches("[AEIOU]", result))
+            if (Pattern.matches("[AEIOU]", result))
             {
-                if(currentPlayerPoints < this.currentPoints*matches.size())
+                if (currentPlayerPoints < this.currentPoints * matches.size())
                 {
                     Toast.makeText(this, "No tienes puntos suficientes", Toast.LENGTH_SHORT).show();
                     passTurn();
-                }else
+                } else
                 {
-                    for(TextView t:matches)
+                    for (TextView t : matches)
                     {
                         t.setTextColor(Color.BLACK);
                     }
-                    currentPlayerPoints -= 30*matches.size();
+                    currentPlayerPoints -= 30 * matches.size();
                     this.playersPoints.get(this.currentPlayer - 1).setText(currentPlayerPoints + "");
                     passTurn();
                 }
-            }else if(result.toUpperCase().equals("RESOLVER"))
+            } else if (result.toUpperCase().equals("RESOLVER"))
             {
 
-            }else
+            } else
             {
-                for(TextView t:matches)
+                for (TextView t : matches)
                 {
                     t.setTextColor(Color.BLACK);
                 }

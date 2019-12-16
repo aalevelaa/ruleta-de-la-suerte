@@ -9,7 +9,6 @@
     </style>
 
     <style name="SplashTheme" parent="Theme.AppCompat.Light.NoActionBar">
-
     </style>
 
     <style name="AppTheme.WindowTransition">
