@@ -23,91 +23,111 @@
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/roulette_keyboard"
         android:layout_width="0dp"
-        android:layout_height="280dp"
+        android:layout_height="320dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline" />
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        tools:layout_editor_absoluteX="138dp"
-        tools:layout_editor_absoluteY="67dp" />
-
     <ImageView
         android:id="@+id/iconPlayer1"
-        android:layout_width="86dp"
-        android:layout_height="64dp"
+        android:layout_width="72dp"
+        android:layout_height="56dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toTopOf="@+id/roulette_keyboard"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/namePlayer1"
         tools:srcCompat="@tools:sample/avatars[1]" />
 
     <TextView
         android:id="@+id/namePlayer1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline" />
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/pointsPlayer1"
+        app:layout_constraintStart_toEndOf="@+id/iconPlayer1"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.967" />
+
+    <TextView
+        android:id="@+id/pointsPlayer1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/roulette_keyboard"
+        app:layout_constraintStart_toEndOf="@+id/iconPlayer1" />
 
     <ImageView
         android:id="@+id/iconPlayer2"
-        android:layout_width="86dp"
-        android:layout_height="64dp"
-        android:layout_marginTop="8dp"
+        android:layout_width="72dp"
+        android:layout_height="56dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toTopOf="@+id/roulette_keyboard"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/namePlayer2"
         tools:srcCompat="@tools:sample/avatars[2]" />
 
     <TextView
         android:id="@+id/namePlayer2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline" />
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/pointsPlayer2"
+        app:layout_constraintEnd_toStartOf="@+id/iconPlayer2"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.96" />
+
+    <TextView
+        android:id="@+id/pointsPlayer2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/roulette_keyboard"
+        app:layout_constraintEnd_toStartOf="@+id/iconPlayer2" />
 
     <ImageView
         android:id="@+id/iconPlayer3"
-        android:layout_width="86dp"
-        android:layout_height="64dp"
+        android:layout_width="72dp"
+        android:layout_height="56dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/namePlayer3"
         tools:srcCompat="@tools:sample/avatars[4]" />
 
     <TextView
         android:id="@+id/namePlayer3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toEndOf="@+id/iconPlayer3"
+        app:layout_constraintTop_toBottomOf="@+id/roulette_keyboard" />
+
+    <TextView
+        android:id="@+id/pointsPlayer3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/iconPlayer3"
         app:layout_constraintTop_toBottomOf="@+id/roulette_keyboard" />
 
     <ImageView
         android:id="@+id/iconPlayer4"
-        android:layout_width="86dp"
-        android:layout_height="64dp"
+        android:layout_width="72dp"
+        android:layout_height="56dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
@@ -125,6 +145,18 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/roulette_keyboard" />
+
+    <TextView
+        android:id="@+id/pointsPlayer4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
+        android:layout_marginBottom="24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/iconPlayer4"
         app:layout_constraintTop_toBottomOf="@+id/roulette_keyboard" />
 
     <androidx.constraintlayout.widget.Guideline
@@ -145,21 +177,12 @@
         android:id="@+id/panel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@+id/guideline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imageView" />
-
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="43dp"
-        android:layout_height="55dp"
-        app:layout_constraintBottom_toTopOf="@+id/roulette_keyboard"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline"
-        app:layout_constraintVertical_bias="1.0"
-        app:srcCompat="@drawable/ic_flechita" />
+        app:layout_constraintTop_toTopOf="@+id/imageView"
+        app:layout_constraintVertical_bias="0.100000024" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

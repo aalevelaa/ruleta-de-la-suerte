@@ -233,7 +233,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="B" />
+                android:text="E" />
 
             <Button
                 android:id="@+id/button25"
@@ -241,7 +241,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="C" />
+                android:text="I" />
 
             <Button
                 android:id="@+id/button26"
@@ -249,7 +249,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="D" />
+                android:text="O" />
 
             <Button
                 android:id="@+id/button27"
@@ -257,7 +257,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="E" />
+                android:text="U" />
         </TableRow>
 
         <TableRow
