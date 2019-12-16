@@ -103,7 +103,7 @@ public class GameActivity extends AppCompatActivity implements RouletteFragment.
             {
                 TextView text = new TextView(this);
                 text.setLayoutParams(rowParams);
-                text.setPadding(10, 10, 10, 0);
+                text.setPadding(6, 8, 6, 8);
                 text.setTextSize(26f);
                 text.setTextColor(Color.WHITE);
                 text.setWidth(90);
@@ -112,14 +112,14 @@ public class GameActivity extends AppCompatActivity implements RouletteFragment.
                 {
                     text.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
                 }
-                text.setText(c + "");
+                text.setText((c + "").toUpperCase());
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
                 {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
                     {
                         if (text.getText().toString().equals(" "))
                         {
-                            text.setBackground(getDrawable(R.drawable.text_view_back));
+                            text.setVisibility(View.INVISIBLE);
                         } else
                         {
                             text.setBackground(getDrawable(R.drawable.text_view_white));
@@ -252,13 +252,13 @@ public class GameActivity extends AppCompatActivity implements RouletteFragment.
                 for (int j = 0; j < row.getChildCount(); j++)
                 {
                     TextView letra = (TextView)row.getChildAt(j);
-                    if(letra.getText().toString().toLowerCase().equals(result.toLowerCase()))
+                    if(letra.getText().toString().toUpperCase().equals(result.toUpperCase()))
                     {
                         matches.add(letra);
 
-                        Toast.makeText(getApplicationContext(), "Hay " + letra.getText(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Hay " + letra.getText().toString().toUpperCase(), Toast.LENGTH_SHORT).show();
 
-                        //letra.setTextColor(Color.BLACK);
+                        letra.setEnabled(false);
                         //currentPlayerPoints += this.currentPoints;
                     }
                 }
