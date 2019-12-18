@@ -45,6 +45,7 @@ public class GameActivity extends AppCompatActivity implements RouletteFragment.
 
     Animation bounceAnim;
 
+    private ArrayList<String> lettersSaid = new ArrayList<>();
     private ArrayList<ImageView> playersAvatars = new ArrayList<>();
     private ArrayList<TextView> playersNames = new ArrayList<>();
     private ArrayList<TextView> playersPoints = new ArrayList<>();
@@ -156,7 +157,7 @@ public class GameActivity extends AppCompatActivity implements RouletteFragment.
 
         for (String palabra : palabras)
         {
-            if (filaActual.length()+palabra.length()+1 < 15)
+            if (filaActual.length()+palabra.length()+1 < 12)
             {
                filaActual += palabra + " ";
             }else
@@ -275,32 +276,44 @@ public class GameActivity extends AppCompatActivity implements RouletteFragment.
             }
             if (Pattern.matches("[AEIOU]", result))
             {
-                if (currentPlayerPoints < this.currentPoints * matches.size())
+                if (currentPlayerPoints < 30 * matches.size())
                 {
                     Toast.makeText(this, "No tienes puntos suficientes", Toast.LENGTH_SHORT).show();
-                    passTurn();
-                } else
+                } else if(!this.lettersSaid.contains(result))
                 {
+                    this.lettersSaid.add(result);
                     for (TextView t : matches)
                     {
                         t.setTextColor(Color.BLACK);
                     }
+                    checkVictory();
                     currentPlayerPoints -= 30 * matches.size();
                     this.playersPoints.get(this.currentPlayer - 1).setText(currentPlayerPoints + "");
-                    passTurn();
+                }else if(this.lettersSaid.contains(result))
+                {
+                    Toast.makeText(this, "Ya se ha dicho la letra " + result, Toast.LENGTH_SHORT).show();
                 }
+                passTurn();
             } else if (result.toUpperCase().equals("RESOLVER"))
             {
                 this.resolver = true;
                 selectNextEmptyLetter();
             } else
             {
-                for (TextView t : matches)
+                if(!this.lettersSaid.contains(result))
                 {
-                    t.setTextColor(Color.BLACK);
+                    for (TextView t : matches)
+                    {
+                        t.setTextColor(Color.BLACK);
+                    }
+                    checkVictory();
+                    this.lettersSaid.add(result);
+                    currentPlayerPoints += currentPoints * matches.size();
+                    this.playersPoints.get(this.currentPlayer - 1).setText(currentPlayerPoints + "");
+                }else
+                {
+                    Toast.makeText(this, "Ya se ha dicho la letra " + result, Toast.LENGTH_SHORT).show();
                 }
-                currentPlayerPoints += currentPoints * matches.size();
-                this.playersPoints.get(this.currentPlayer - 1).setText(currentPlayerPoints + "");
                 passTurn();
             }
         }else if(resolver)
@@ -333,7 +346,45 @@ public class GameActivity extends AppCompatActivity implements RouletteFragment.
                 }
             }
         }
-        //fragment.setSpinning(false);
+    }
+
+    private void checkVictory()
+    {
+        TableLayout panel = (TableLayout) findViewById(R.id.panel);
+        boolean founded = false;
+
+        for(int i = 0; i < panel.getChildCount(); i++)
+        {
+            TableRow row = (TableRow) panel.getChildAt(i);
+            for(int j = 0; j < row.getChildCount(); j++)
+            {
+                if(((TextView)row.getChildAt(j)).getCurrentTextColor() == Color.WHITE
+                        && !((TextView)row.getChildAt(j)).getText().equals(" "))
+                {
+                    founded = true;
+                    break;
+                }
+            }
+            if(founded)
+            {
+                break;
+            }
+        }
+        if(!founded)
+        {
+            String winningPlayer = this.playersNames.get(this.currentPlayer-1).getText().toString();
+            new androidx.appcompat.app.AlertDialog.Builder(this)
+                    .setTitle("Has ganado " + winningPlayer)
+                    .setCancelable(true)
+                    .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            Intent intent = new Intent(getApplicationContext(), PlayersMenuActivity.class);
+                            startActivity(intent);
+                        }
+                    })
+                    .create().show();
+        }
+
     }
 
     private void selectNextEmptyLetter()
@@ -364,10 +415,11 @@ public class GameActivity extends AppCompatActivity implements RouletteFragment.
         }
         if(!founded)
         {
+            String winningPlayer = this.playersNames.get(this.currentPlayer-1).getText().toString();
             new androidx.appcompat.app.AlertDialog.Builder(this)
-                    .setTitle("Victoria")
+                    .setTitle("Has ganado " + winningPlayer)
                     .setCancelable(true)
-                    .setPositiveButton("HAS GANADO", new DialogInterface.OnClickListener() {
+                    .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             Intent intent = new Intent(getApplicationContext(), PlayersMenuActivity.class);
                             startActivity(intent);
