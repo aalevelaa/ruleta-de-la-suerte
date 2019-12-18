@@ -20,6 +20,7 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.graphics.Paint;
 
 import org.w3c.dom.Text;
 
@@ -131,8 +132,7 @@ public class GameActivity extends AppCompatActivity implements RouletteFragment.
                     {
                         if (text.getText().toString().equals(" "))
                         {
-                            //text.setVisibility(View.INVISIBLE);
-                            text.setBackground(getDrawable(R.drawable.text_view_back));
+                            text.setVisibility(View.INVISIBLE);
                         } else
                         {
                             text.setBackground(getDrawable(R.drawable.text_view_white));
@@ -144,7 +144,6 @@ public class GameActivity extends AppCompatActivity implements RouletteFragment.
             }
             ((TableLayout) findViewById(R.id.panel)).addView(tableRow);
         }
-
     }
 
 
@@ -213,7 +212,7 @@ public class GameActivity extends AppCompatActivity implements RouletteFragment.
     private void setAnimation(ImageView avatar)
     {
         bounceAnim = AnimationUtils.loadAnimation(this, R.anim.bounce);
-        MyBounceInterpolator interpolator = new MyBounceInterpolator(0.3, 500);
+        MyBounceInterpolator interpolator = new MyBounceInterpolator(0.5, 900);
         bounceAnim.setInterpolator(interpolator);
         avatar.startAnimation(bounceAnim);
     }
