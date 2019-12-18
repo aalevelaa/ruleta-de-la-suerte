@@ -223,20 +223,17 @@ public class GameActivity extends AppCompatActivity implements RouletteFragment.
     {
         if (result.toLowerCase().equals("quiebra"))
         {
-            //fragment.setSpinning(false);
-            this.passTurn();
-
             Toast.makeText(getApplicationContext(), "QUIEBRAAAAA", Toast.LENGTH_SHORT).show();
 
             this.playersPoints.get(this.currentPlayer - 1).setText("0");
 
-        } else if (result.toLowerCase().equals("turno"))
-        {
-            //fragment.setSpinning(false);
             this.passTurn();
 
+        } else if (result.toLowerCase().equals("turno"))
+        {
             Toast.makeText(getApplicationContext(), "PIERDES EL TURNO", Toast.LENGTH_SHORT).show();
 
+            this.passTurn();
         } else
         {
             this.currentPoints = Integer.parseInt(result);
@@ -266,7 +263,6 @@ public class GameActivity extends AppCompatActivity implements RouletteFragment.
                     {
                         matches.add(letra);
 
-                        Toast.makeText(getApplicationContext(), "Hay " + letra.getText().toString().toUpperCase(), Toast.LENGTH_SHORT).show();
 
                         letra.setEnabled(false);
                         //currentPlayerPoints += this.currentPoints;
@@ -281,6 +277,10 @@ public class GameActivity extends AppCompatActivity implements RouletteFragment.
                 } else if(!this.lettersSaid.contains(result))
                 {
                     this.lettersSaid.add(result);
+                    if(matches.size()!=0)
+                    {
+                        Toast.makeText(getApplicationContext(), "Hay " + result, Toast.LENGTH_SHORT).show();
+                    }
                     for (TextView t : matches)
                     {
                         t.setTextColor(Color.BLACK);
@@ -301,6 +301,10 @@ public class GameActivity extends AppCompatActivity implements RouletteFragment.
             {
                 if(!this.lettersSaid.contains(result))
                 {
+                    if(matches.size()!=0)
+                    {
+                        Toast.makeText(getApplicationContext(), "Hay " + result, Toast.LENGTH_SHORT).show();
+                    }
                     for (TextView t : matches)
                     {
                         t.setTextColor(Color.BLACK);
