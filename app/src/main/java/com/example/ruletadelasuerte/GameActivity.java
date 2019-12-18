@@ -7,8 +7,10 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -33,6 +35,7 @@ public class GameActivity extends AppCompatActivity implements RouletteFragment.
     private int numPlayers;
     private String[] namePlayers;
     private String frase = "";
+    private String pista = "";
     private RouletteKeyboardAdapter adapter;
     private ViewPager viewPager;
     private int currentPlayer = 1;
@@ -102,8 +105,12 @@ public class GameActivity extends AppCompatActivity implements RouletteFragment.
         TableRow.LayoutParams rowParams = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
 
         // Establish randomly the sentence to be guessed
-        String[] array = getResources().getStringArray(R.array.frases);
-        this.frase = array[rand.nextInt(array.length)];
+        String[] arrayFrases = getResources().getStringArray(R.array.frases);
+        int fraseNumber = rand.nextInt(arrayFrases.length);
+        this.frase = arrayFrases[fraseNumber];
+
+        String[] arrayPistas = getResources().getStringArray(R.array.pistas);
+        this.pista = arrayPistas[fraseNumber];
 
         String[] fraseCortada = splitFrase();
 
@@ -116,11 +123,11 @@ public class GameActivity extends AppCompatActivity implements RouletteFragment.
             {
                 TextView text = new TextView(this);
                 text.setLayoutParams(rowParams);
-                text.setPadding(6, 8, 6, 8);
-                text.setTextSize(26f);
+                text.setPadding(4, 6, 4, 6);
+                text.setTextSize(22f);
                 text.setTextColor(Color.WHITE);
-                text.setWidth(90);
-                text.setHeight(130);
+                text.setWidth(70);
+                text.setHeight(110);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1)
                 {
                     text.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
@@ -144,6 +151,24 @@ public class GameActivity extends AppCompatActivity implements RouletteFragment.
             }
             ((TableLayout) findViewById(R.id.panel)).addView(tableRow);
         }
+
+        LinearLayout layoutPista = new LinearLayout(this);
+        TextView pistaTv = new TextView(this);
+        pistaTv.setText(this.pista);
+        pistaTv.setTypeface(null, Typeface.BOLD);
+        layoutPista.setOrientation(LinearLayout.VERTICAL);
+        layoutPista.setGravity(Gravity.CENTER);
+        layoutPista.addView(pistaTv);
+
+        new androidx.appcompat.app.AlertDialog.Builder(GameActivity.this)
+                .setTitle("Pista")
+                .setCancelable(true)
+                .setView(layoutPista)
+                .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                    }
+                })
+                .create().show();
     }
 
 
@@ -156,7 +181,7 @@ public class GameActivity extends AppCompatActivity implements RouletteFragment.
 
         for (String palabra : palabras)
         {
-            if (filaActual.length()+palabra.length()+1 < 12)
+            if (filaActual.length()+palabra.length()+1 < 16)
             {
                filaActual += palabra + " ";
             }else
@@ -223,20 +248,17 @@ public class GameActivity extends AppCompatActivity implements RouletteFragment.
     {
         if (result.toLowerCase().equals("quiebra"))
         {
-            //fragment.setSpinning(false);
-            this.passTurn();
-
             Toast.makeText(getApplicationContext(), "QUIEBRAAAAA", Toast.LENGTH_SHORT).show();
 
             this.playersPoints.get(this.currentPlayer - 1).setText("0");
 
-        } else if (result.toLowerCase().equals("turno"))
-        {
-            //fragment.setSpinning(false);
             this.passTurn();
 
+        } else if (result.toLowerCase().equals("turno"))
+        {
             Toast.makeText(getApplicationContext(), "PIERDES EL TURNO", Toast.LENGTH_SHORT).show();
 
+            this.passTurn();
         } else
         {
             this.currentPoints = Integer.parseInt(result);
@@ -266,7 +288,6 @@ public class GameActivity extends AppCompatActivity implements RouletteFragment.
                     {
                         matches.add(letra);
 
-                        Toast.makeText(getApplicationContext(), "Hay " + letra.getText().toString().toUpperCase(), Toast.LENGTH_SHORT).show();
 
                         letra.setEnabled(false);
                         //currentPlayerPoints += this.currentPoints;
@@ -281,6 +302,10 @@ public class GameActivity extends AppCompatActivity implements RouletteFragment.
                 } else if(!this.lettersSaid.contains(result))
                 {
                     this.lettersSaid.add(result);
+                    if(matches.size()!=0)
+                    {
+                        Toast.makeText(getApplicationContext(), "Hay " + result, Toast.LENGTH_SHORT).show();
+                    }
                     for (TextView t : matches)
                     {
                         t.setTextColor(Color.BLACK);
@@ -301,6 +326,10 @@ public class GameActivity extends AppCompatActivity implements RouletteFragment.
             {
                 if(!this.lettersSaid.contains(result))
                 {
+                    if(matches.size()!=0)
+                    {
+                        Toast.makeText(getApplicationContext(), "Hay " + result, Toast.LENGTH_SHORT).show();
+                    }
                     for (TextView t : matches)
                     {
                         t.setTextColor(Color.BLACK);
@@ -325,7 +354,7 @@ public class GameActivity extends AppCompatActivity implements RouletteFragment.
                 if(this.fieldColoredView.getText().equals(result))
                 {
                     this.fieldColoredView.setTextColor(Color.BLACK);
-                    this.fieldColoredView.setBackgroundColor(Color.WHITE);
+                    this.fieldColoredView.setBackground(getDrawable(R.drawable.text_view_white));
                     selectNextEmptyLetter();
                 }else
                 {
@@ -336,9 +365,10 @@ public class GameActivity extends AppCompatActivity implements RouletteFragment.
                             .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
                                     fieldColoredView.setTextColor(Color.WHITE);
-                                    fieldColoredView.setBackgroundColor(Color.WHITE);
+                                    fieldColoredView.setBackground(getDrawable(R.drawable.text_view_white));
                                     fieldColored = false;
                                     resolver = false;
+                                    passTurn();
                                 }
                             })
                             .create().show();
