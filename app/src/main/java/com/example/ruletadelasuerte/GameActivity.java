@@ -13,11 +13,15 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -32,6 +36,10 @@ public class GameActivity extends AppCompatActivity implements RouletteFragment.
     private ViewPager viewPager;
     private int currentPlayer = 1;
     private int currentPoints = 0;
+    private boolean resolver = false;
+    private boolean fieldColored = false;
+    private TextView fieldColoredView;
+    private RouletteFragment fragment;
 
     Random rand = new Random();
 
@@ -85,6 +93,9 @@ public class GameActivity extends AppCompatActivity implements RouletteFragment.
         this.adapter = new RouletteKeyboardAdapter(getSupportFragmentManager());
         viewPager.setAdapter(adapter);
 
+        this.fragment = (RouletteFragment) this.adapter.getItem(0);
+        this.fragment.setSpinning(false);
+
 
         TableRow.LayoutParams rowParams = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
 
@@ -119,7 +130,8 @@ public class GameActivity extends AppCompatActivity implements RouletteFragment.
                     {
                         if (text.getText().toString().equals(" "))
                         {
-                            text.setVisibility(View.INVISIBLE);
+                            //text.setVisibility(View.INVISIBLE);
+                            text.setBackground(getDrawable(R.drawable.text_view_back));
                         } else
                         {
                             text.setBackground(getDrawable(R.drawable.text_view_white));
@@ -150,7 +162,7 @@ public class GameActivity extends AppCompatActivity implements RouletteFragment.
             }else
             {
                 sol.add(filaActual);
-                filaActual = "";
+                filaActual = palabra + " ";
             }
         }
 
@@ -209,11 +221,10 @@ public class GameActivity extends AppCompatActivity implements RouletteFragment.
     @Override
     public void onFragmentInteraction(String result)
     {
-        RouletteFragment fragment = (RouletteFragment) this.adapter.getItem(0);
         if (result.toLowerCase().equals("quiebra"))
         {
-            fragment.setSpinning(false);
-            passTurn();
+            //fragment.setSpinning(false);
+            this.passTurn();
 
             Toast.makeText(getApplicationContext(), "QUIEBRAAAAA", Toast.LENGTH_SHORT).show();
 
@@ -221,8 +232,8 @@ public class GameActivity extends AppCompatActivity implements RouletteFragment.
 
         } else if (result.toLowerCase().equals("turno"))
         {
-            fragment.setSpinning(false);
-            passTurn();
+            //fragment.setSpinning(false);
+            this.passTurn();
 
             Toast.makeText(getApplicationContext(), "PIERDES EL TURNO", Toast.LENGTH_SHORT).show();
 
@@ -236,14 +247,13 @@ public class GameActivity extends AppCompatActivity implements RouletteFragment.
     @Override
     public void onKeyboardInteraction(String result)
     {
-        RouletteFragment fragment = (RouletteFragment) this.adapter.getItem(0);
 
         int currentPlayerPoints = Integer.parseInt(playersPoints.get(this.currentPlayer - 1).getText().toString());
         ArrayList<TextView> matches = new ArrayList<>();
 
         TableLayout panel = findViewById(R.id.panel);
 
-        if (fragment.getSpinning())
+        if (fragment.getSpinning() && !this.resolver)
         {
             for (int i = 0; i < panel.getChildCount(); i++)
             {
@@ -281,7 +291,8 @@ public class GameActivity extends AppCompatActivity implements RouletteFragment.
                 }
             } else if (result.toUpperCase().equals("RESOLVER"))
             {
-
+                this.resolver = true;
+                selectNextEmptyLetter();
             } else
             {
                 for (TextView t : matches)
@@ -292,15 +303,87 @@ public class GameActivity extends AppCompatActivity implements RouletteFragment.
                 this.playersPoints.get(this.currentPlayer - 1).setText(currentPlayerPoints + "");
                 passTurn();
             }
+        }else if(resolver)
+        {
+            if(!this.fieldColored)
+            {
+                selectNextEmptyLetter();
+            }else if(Pattern.matches("[A-Z]", result.toUpperCase()))
+            {
+                if(this.fieldColoredView.getText().equals(result))
+                {
+                    this.fieldColoredView.setTextColor(Color.BLACK);
+                    this.fieldColoredView.setBackgroundColor(Color.WHITE);
+                    selectNextEmptyLetter();
+                }else
+                {
+
+                    new androidx.appcompat.app.AlertDialog.Builder(this)
+                            .setTitle("Letra erronea")
+                            .setCancelable(true)
+                            .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    fieldColoredView.setTextColor(Color.WHITE);
+                                    fieldColoredView.setBackgroundColor(Color.WHITE);
+                                    fieldColored = false;
+                                    resolver = false;
+                                }
+                            })
+                            .create().show();
+                }
+            }
         }
-        fragment.setSpinning(false);
+        //fragment.setSpinning(false);
+    }
+
+    private void selectNextEmptyLetter()
+    {
+        TableLayout panel = (TableLayout) findViewById(R.id.panel);
+        boolean founded = false;
+
+        for(int i = 0; i < panel.getChildCount(); i++)
+        {
+            TableRow row = (TableRow) panel.getChildAt(i);
+            for(int j = 0; j < row.getChildCount(); j++)
+            {
+                if(((TextView)row.getChildAt(j)).getCurrentTextColor() == Color.WHITE
+                        && !((TextView)row.getChildAt(j)).getText().equals(" "))
+                {
+                    ((TextView)row.getChildAt(j)).setBackgroundColor(Color.YELLOW);
+                    ((TextView)row.getChildAt(j)).setTextColor(Color.YELLOW);
+                    founded = true;
+                    this.fieldColored = true;
+                    this.fieldColoredView = ((TextView)row.getChildAt(j));
+                    break;
+                }
+            }
+            if(founded)
+            {
+               break;
+            }
+        }
+        if(!founded)
+        {
+            new androidx.appcompat.app.AlertDialog.Builder(this)
+                    .setTitle("Victoria")
+                    .setCancelable(true)
+                    .setPositiveButton("HAS GANADO", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            Intent intent = new Intent(getApplicationContext(), PlayersMenuActivity.class);
+                            startActivity(intent);
+                        }
+                    })
+                    .create().show();
+        }
     }
 
     private void passTurn()
     {
+        RouletteFragment fragment = (RouletteFragment) this.adapter.getItem(0);
         playersAvatars.get(this.currentPlayer - 1).clearAnimation();
         this.currentPlayer = (this.currentPlayer % this.numPlayers) + 1;
         this.setAnimation(playersAvatars.get(this.currentPlayer - 1));
+        this.fragment.setSpinning(false);
     }
 
     @Override

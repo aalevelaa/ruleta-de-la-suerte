@@ -28,7 +28,9 @@ public class RouletteFragment extends Fragment {
 
     public void setSpinning(boolean spinning)
     {
+       int y = 0;
        this.spinning = spinning;
+       int x = 0;
     }
 
     public boolean getSpinning()
@@ -37,77 +39,77 @@ public class RouletteFragment extends Fragment {
     }
 
     public static RouletteFragment newInstance() {
-        RouletteFragment fragment = new RouletteFragment();
-        return fragment;
-    }
+            RouletteFragment fragment = new RouletteFragment();
+            return fragment;
+        }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_roulette, container, false);
-        view.findViewById(R.id.mainRoulette).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-               spinRoulette(v);
+            public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+        }
+
+            @Override
+            public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                Bundle savedInstanceState) {
+            // Inflate the layout for this fragment
+            View view = inflater.inflate(R.layout.fragment_roulette, container, false);
+            view.findViewById(R.id.mainRoulette).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    spinRoulette(v);
+                }
+            });
+            return view;
+        }
+
+            // TODO: Rename method, update argument and hook method into UI event
+            public void onButtonPressed(String uri) {
+            if (mListener != null) {
+                mListener.onFragmentInteraction(uri);
             }
-        });
-        return view;
-    }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(String uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
         }
-    }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+            @Override
+            public void onAttach(Context context) {
+            super.onAttach(context);
+            if (context instanceof OnFragmentInteractionListener) {
+                mListener = (OnFragmentInteractionListener) context;
+            } else {
+                throw new RuntimeException(context.toString()
+                        + " must implement OnFragmentInteractionListener");
+            }
         }
-    }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    public void spinRoulette(View v)
-    {
-        if(!this.spinning)
-        {
-            float r = (float) new Random().nextInt(360);
-
-            final RotateAnimation animRotate = new RotateAnimation(0f, -r+5-360,
-                    RotateAnimation.RELATIVE_TO_SELF, 0.5f,
-                    RotateAnimation.RELATIVE_TO_SELF, 0.5f);
-
-            animRotate.setDuration(3000);
-            animRotate.setFillAfter(true);
-
-            v.startAnimation(animRotate);
-
-            String[] casillas = getResources().getStringArray(R.array.casillas);
-
-            Log.i("grados", r+"");
-
-            this.result = (casillas[(int) (Math.ceil(r/15)-1)]);
-            onButtonPressed(this.result);
-            this.spinning = true;
+            @Override
+            public void onDetach() {
+            super.onDetach();
+            mListener = null;
         }
-    }
+
+            public void spinRoulette(View v)
+            {
+                if(!this.spinning)
+                {
+                    float r = (float) new Random().nextInt(360);
+
+                    final RotateAnimation animRotate = new RotateAnimation(0f, -r+5-360,
+                            RotateAnimation.RELATIVE_TO_SELF, 0.5f,
+                            RotateAnimation.RELATIVE_TO_SELF, 0.5f);
+
+                    animRotate.setDuration(3000);
+                    animRotate.setFillAfter(true);
+
+                    v.startAnimation(animRotate);
+
+                    String[] casillas = getResources().getStringArray(R.array.casillas);
+
+                    Log.i("grados", r+"");
+
+                    this.result = (casillas[(int) (Math.ceil(r/15)-1)]);
+                    this.spinning = true;
+                    onButtonPressed(this.result);
+                }
+            }
 
     /**
      * This interface must be implemented by activities that contain this
